@@ -1,3 +1,27 @@
+//array with same data type
+var arr1 = [1,2,3,4,5,6,7,8];
+console.log(arr1);
+
+//array with different data type
+var arr2 = ["Vivek",9,true]
+console.log(arr2)
+
+//arrays with list of arrays
+var arr3 = [ [1,2,3], ["a","b","c"], [true,false]  ]
+console.log(arr3)
+
+console.log(arr2[0])
+
+console.log(arr3[0][0]);
+console.log(arr3[1][1])
+
+arr1.push(9);
+console.log(arr1);
+
+arr1.pop();
+console.log(arr1);
+
+
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
@@ -8,6 +32,7 @@ var box1, pig1;
 var backgroundImg;
 var platform;
 var sling;
+var gameState="onSling";
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
@@ -69,13 +94,16 @@ function draw(){
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY})
+    if(gameState!=="launched"){
+        Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY})
+    }
 }
 function mouseReleased(){
     slingshot.fly();
+    gameState="launched"
 }
 function keyPressed(){
     if(keyCode===32){
-        slingshot.attach(bird.body)
+       // slingshot.attach(bird.body)
     }
 }
