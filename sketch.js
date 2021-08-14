@@ -1,25 +1,4 @@
-//array with same data type
-var arr1 = [1,2,3,4,5,6,7,8];
-console.log(arr1);
 
-//array with different data type
-var arr2 = ["Vivek",9,true]
-console.log(arr2)
-
-//arrays with list of arrays
-var arr3 = [ [1,2,3], ["a","b","c"], [true,false]  ]
-console.log(arr3)
-
-console.log(arr2[0])
-
-console.log(arr3[0][0]);
-console.log(arr3[1][1])
-
-arr1.push(9);
-console.log(arr1);
-
-arr1.pop();
-console.log(arr1);
 
 
 const Engine = Matter.Engine;
@@ -33,9 +12,11 @@ var backgroundImg;
 var platform;
 var sling;
 var gameState="onSling";
+var bg;
+var score = 0;
 
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+function preload(){ 
+    getBackground()
 }
 
 function setup(){
@@ -68,19 +49,30 @@ function setup(){
 }
 
 function draw(){
-    background(backgroundImg);
+    if(backgroundImg){
+        background(backgroundImg);
+    }
+   
     Engine.update(engine);
+
+    textSize(20);
+    fill("red");
+    text("Score : "+score, 600, 50);
+
 
     box1.display();
     box2.display();
     ground.display();
     pig1.display();
+    pig1.score();
     log1.display();
     platform.display();
 
     box3.display();
     box4.display();
     pig3.display();
+    pig3.score();
+    
     log3.display();
 
     box5.display();
@@ -106,4 +98,24 @@ function keyPressed(){
     if(keyCode===32){
        // slingshot.attach(bird.body)
     }
+}
+
+async function getBackground(){
+    var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
+    var responseJSON = await response.json();
+
+    //console.log(responseJSON);
+
+    var dt = responseJSON.datetime;
+    var hour = dt.slice(11,13);
+    //console.log(hour);
+    if(hour>=06&& hour<12){
+        bg="sprites/bg.png"
+    }
+    else{
+        bg="sprites/bg2.jpg"
+    }
+    backgroundImg=loadImage(bg)
+
+
 }
