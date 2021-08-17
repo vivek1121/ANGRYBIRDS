@@ -63,11 +63,12 @@ function draw(){
     box1.display();
     box2.display();
     ground.display();
+    platform.display();
+
     pig1.display();
     pig1.score();
     log1.display();
-    platform.display();
-
+  
     box3.display();
     box4.display();
     pig3.display();
@@ -96,7 +97,10 @@ function mouseReleased(){
 }
 function keyPressed(){
     if(keyCode===32){
-       // slingshot.attach(bird.body)
+        bird.trajectory=[]
+        gameState="onSling"
+        Matter.Body.setPosition(bird.body,{x:200,y:60})
+        slingshot.attach(bird.body)
     }
 }
 
@@ -109,7 +113,7 @@ async function getBackground(){
     var dt = responseJSON.datetime;
     var hour = dt.slice(11,13);
     //console.log(hour);
-    if(hour>=06&& hour<12){
+    if(hour>=06&& hour<19){
         bg="sprites/bg.png"
     }
     else{
